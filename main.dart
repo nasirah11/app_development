@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'HomePage.dart';         // Import your homepage
 import 'RegisterPage.dart';     // Import your register page
 
+
 void main() {
   runApp(const MyApp());
 }
@@ -12,7 +13,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Simple Login Demo',
+      title: 'Fitness App',
       theme: ThemeData(primarySwatch: Colors.blue),
       home: LoginPage(),
       debugShowCheckedModeBanner: false,
@@ -117,7 +118,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   child: const Text(
                     'LOGIN',
-                    style: TextStyle(letterSpacing: 1.2),
+                    style: TextStyle(letterSpacing: 1.2, color: Color.fromARGB(255, 250, 250, 250)),
                   ),
                 ),
                 TextButton(
