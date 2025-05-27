@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'HomePage.dart';         // Import HomePage
-import 'RegisterPage.dart';     // Import RegisterPage
+import 'HomePage.dart';         // Import your homepage
+import 'RegisterPage.dart';     // Import your register page
 
 void main() {
   runApp(const MyApp());
@@ -15,6 +15,7 @@ class MyApp extends StatelessWidget {
       title: 'Simple Login Demo',
       theme: ThemeData(primarySwatch: Colors.blue),
       home: LoginPage(),
+      debugShowCheckedModeBanner: false,
     );
   }
 }
@@ -35,7 +36,7 @@ class _LoginPageState extends State<LoginPage> {
 
     if (username == 'admin' && password == '1234') {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Login successful!')),
+        const SnackBar(content: Text('Login successful!')),
       );
 
       Navigator.pushReplacement(
@@ -59,35 +60,78 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Login Page')),
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          children: [
-            TextField(
-              controller: _usernameController,
-              decoration: InputDecoration(labelText: 'Username'),
+      backgroundColor: const Color(0xFFF2F3F5),
+      body: Center(
+        child: SingleChildScrollView(
+          child: Container(
+            width: 320,
+            padding: const EdgeInsets.all(30),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(10),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.shade300,
+                  blurRadius: 12,
+                  spreadRadius: 2,
+                  offset: const Offset(0, 6),
+                ),
+              ],
             ),
-            TextField(
-              controller: _passwordController,
-              obscureText: true,
-              decoration: InputDecoration(labelText: 'Password'),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Text(
+                  'CUSTOMER LOGIN',
+                  style: TextStyle(
+                    fontSize: 16,
+                    letterSpacing: 1.5,
+                    color: Colors.grey,
+                  ),
+                ),
+                const SizedBox(height: 30),
+                TextField(
+                  controller: _usernameController,
+                  decoration: const InputDecoration(
+                    prefixIcon: Icon(Icons.person_outline),
+                    hintText: 'Username',
+                    border: UnderlineInputBorder(),
+                  ),
+                ),
+                const SizedBox(height: 20),
+                TextField(
+                  controller: _passwordController,
+                  obscureText: true,
+                  decoration: const InputDecoration(
+                    prefixIcon: Icon(Icons.lock_outline),
+                    hintText: 'Password',
+                    border: UnderlineInputBorder(),
+                  ),
+                ),
+                const SizedBox(height: 30),
+                ElevatedButton(
+                  onPressed: _login,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.grey[600],
+                    minimumSize: const Size.fromHeight(50),
+                  ),
+                  child: const Text(
+                    'LOGIN',
+                    style: TextStyle(letterSpacing: 1.2),
+                  ),
+                ),
+                TextButton(
+                  onPressed: _register,
+                  child: const Text('Register Now'),
+                ),
+                const SizedBox(height: 10),
+                Text(
+                  _message,
+                  style: const TextStyle(color: Colors.red),
+                ),
+              ],
             ),
-            SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: _login,
-              child: Text('Login'),
-            ),
-            TextButton(
-              onPressed: _register,
-              child: Text('Register Now'),
-            ),
-            SizedBox(height: 10),
-            Text(
-              _message,
-              style: TextStyle(color: Colors.red),
-            ),
-          ],
+          ),
         ),
       ),
     );
