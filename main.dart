@@ -44,12 +44,12 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void _register() {
-    setState(() {
-      _message = 'Redirecting to registration...';
-    });
-    // You can later navigate to another screen from here
-    // Navigator.push(context, MaterialPageRoute(builder: (context) => RegisterPage()));
-  }
+  Navigator.push(
+    context,
+    MaterialPageRoute(builder: (context) => RegisterPage()),
+  );
+}
+
 
   @override
   Widget build(BuildContext context) {
@@ -81,6 +81,51 @@ class _LoginPageState extends State<LoginPage> {
             Text(
               _message,
               style: TextStyle(color: Colors.red, fontSize: 16),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+class RegisterPage extends StatelessWidget {
+  final _newUsernameController = TextEditingController();
+  final _newPasswordController = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('Register Page')),
+      body: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Column(
+          children: [
+            TextField(
+              controller: _newUsernameController,
+              decoration: InputDecoration(labelText: 'New Username'),
+            ),
+            TextField(
+              controller: _newPasswordController,
+              obscureText: true,
+              decoration: InputDecoration(labelText: 'New Password'),
+            ),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                String newUsername = _newUsernameController.text;
+                String newPassword = _newPasswordController.text;
+
+                // Simulate registration (print to console)
+                print('Registered: $newUsername / $newPassword');
+
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text('Registered successfully!')),
+                );
+
+                // Go back to login page
+                Navigator.pop(context);
+              },
+              child: Text('Register'),
             ),
           ],
         ),
