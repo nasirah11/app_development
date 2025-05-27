@@ -10,13 +10,14 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Fitness App Login',
+      title: 'Fitness App',
       theme: ThemeData(primarySwatch: Colors.blue),
       home: LoginPage(),
     );
   }
 }
 
+// ===================== LOGIN PAGE =========================
 class LoginPage extends StatefulWidget {
   @override
   _LoginPageState createState() => _LoginPageState();
@@ -25,7 +26,6 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
-
   String _message = '';
 
   void _login() {
@@ -33,9 +33,10 @@ class _LoginPageState extends State<LoginPage> {
     String password = _passwordController.text;
 
     if (username == 'admin' && password == '1234') {
-      setState(() {
-        _message = 'Login successful!';
-      });
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => HomePage()),
+      );
     } else {
       setState(() {
         _message = 'Invalid username or password';
@@ -44,12 +45,11 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void _register() {
-  Navigator.push(
-    context,
-    MaterialPageRoute(builder: (context) => RegisterPage()),
-  );
-}
-
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => RegisterPage()),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -88,6 +88,8 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 }
+
+// ===================== REGISTER PAGE =========================
 class RegisterPage extends StatelessWidget {
   final _newUsernameController = TextEditingController();
   final _newPasswordController = TextEditingController();
@@ -112,21 +114,54 @@ class RegisterPage extends StatelessWidget {
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                String newUsername = _newUsernameController.text;
-                String newPassword = _newPasswordController.text;
-
-                // Simulate registration (print to console)
-                print('Registered: $newUsername / $newPassword');
-
+                // Simulate registration
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(content: Text('Registered successfully!')),
                 );
-
-                // Go back to login page
                 Navigator.pop(context);
               },
               child: Text('Register'),
             ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// ===================== HOME PAGE =========================
+class HomePage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Fitness Home'),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.logout),
+            onPressed: () {
+              // Navigate back to login
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => LoginPage()),
+              );
+            },
+          )
+        ],
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.fitness_center, size: 100, color: Colors.blue),
+            SizedBox(height: 20),
+            Text(
+              'Welcome to Your Fitness Dashboard!',
+              style: TextStyle(fontSize: 20),
+              textAlign: TextAlign.center,
+            ),
+            SizedBox(height: 10),
+            Text('Track your workouts, goals, and progress.'),
           ],
         ),
       ),
