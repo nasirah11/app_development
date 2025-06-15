@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'main.dart'; // for LoginPage
+import 'ProfilePage.dart'; // for profile page
+import 'TrainerTips.dart'; // for trainer tips page
 
 class HomePage extends StatefulWidget {
+  const HomePage({super.key});
+
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -9,11 +13,10 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
 
-  // Sample page content for each tab
   final List<Widget> _pages = [
-    WorkoutPage(),
-    CommunityFeedPage(),
-    ProfilePage(),
+    const WorkoutPage(),
+    const CommunityFeedPage(),
+    const ProfilePage(),
   ];
 
   void _onItemTapped(int index) {
@@ -25,7 +28,14 @@ class _HomePageState extends State<HomePage> {
   void _logout() {
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(builder: (context) => LoginPage()),
+      MaterialPageRoute(builder: (context) => const LoginPage()),
+    );
+  }
+
+  void _openTrainerTips() {
+    Navigator.push(
+      context,  
+      MaterialPageRoute(builder: (context) => const TrainerTipsPage()),
     );
   }
 
@@ -33,15 +43,39 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Fitness App'),
+        title: const Text('Fitness App'),
         actions: [
-          IconButton(icon: Icon(Icons.logout), onPressed: _logout),
+          IconButton(icon: const Icon(Icons.logout), onPressed: _logout),
         ],
+      ),
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            const DrawerHeader(
+              decoration: BoxDecoration(color: Colors.black87),
+              child: Text(
+                'Menu',
+                style: TextStyle(color: Colors.white, fontSize: 24),
+              ),
+            ),
+            ListTile(
+              leading: const Icon(Icons.play_circle_filled),
+              title: const Text('Trainer Tips'),
+              onTap: () {
+                Navigator.pop(context); // close drawer
+                _openTrainerTips();
+              },
+            ),
+            // You can add Feedback page here later
+          ],
+        ),
       ),
       body: _pages[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
+        selectedItemColor: Colors.orangeAccent,
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.fitness_center),
@@ -49,7 +83,7 @@ class _HomePageState extends State<HomePage> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.forum),
-            label: 'Community',
+            label: 'Community Feed',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
@@ -64,28 +98,29 @@ class _HomePageState extends State<HomePage> {
 // ------------------ Subpages -------------------
 
 class WorkoutPage extends StatelessWidget {
+  const WorkoutPage({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Text('🏋️ Workout Programs Coming Soon!', style: TextStyle(fontSize: 18)),
+    return const Center(
+      child: Text(
+        '🏋️ Workout Programs Coming Soon!',
+        style: TextStyle(fontSize: 18),
+      ),
     );
   }
 }
 
 class CommunityFeedPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Text('💬 Community Feed is under construction.', style: TextStyle(fontSize: 18)),
-    );
-  }
-}
+  const CommunityFeedPage({super.key});
 
-class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Text('👤 User Profile Info', style: TextStyle(fontSize: 18)),
+    return const Center(
+      child: Text(
+        '💬 Community Feed is under construction.',
+        style: TextStyle(fontSize: 18),
+      ),
     );
   }
 }
